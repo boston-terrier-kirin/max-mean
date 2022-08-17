@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const postsRoutes = require('./routes/posts');
+const userRoutes = require('./routes/user');
 
 mongoose
   .connect(process.env.MONGO_DB_URL)
@@ -24,7 +25,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -35,5 +36,6 @@ app.use((req, res, next) => {
 });
 
 app.use(postsRoutes);
+app.use(userRoutes);
 
 module.exports = app;

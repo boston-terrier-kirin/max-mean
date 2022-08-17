@@ -1,0 +1,27 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="signup()">
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+      />
+      <mat-error *ngIf="form.controls['email'].invalid"
+        >Email is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+      />
+      <mat-error *ngIf="form.controls['email'].invalid"
+        >Password is required</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button color="primary">Signup</button>
+  </form>
+</mat-card>

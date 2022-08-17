@@ -2,10 +2,25 @@
   <span><a routerLink="/">My Application</a></span>
   <span class="spacer"></span>
   <ul>
-    <li>
+    <li *ngIf="isAuthenticated">
       <a mat-button routerLink="/create" routerLinkActive="mat-accent"
         >New Post</a
       >
+    </li>
+    <ng-container *ngIf="!isAuthenticated">
+      <li>
+        <a mat-button routerLink="/login" routerLinkActive="mat-accent"
+          >Login</a
+        >
+      </li>
+      <li>
+        <a mat-button routerLink="/signup" routerLinkActive="mat-accent"
+          >Signup</a
+        >
+      </li>
+    </ng-container>
+    <li *ngIf="isAuthenticated">
+      <button mat-button (click)="logout()">Logout</button>
     </li>
   </ul>
 </mat-toolbar>
