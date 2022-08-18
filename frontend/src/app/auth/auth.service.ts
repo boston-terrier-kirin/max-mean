@@ -19,12 +19,10 @@ export class AuthService {
       password,
     };
 
-    this.httpClient
-      .post('http://localhost:3000/api/user/signup', authData)
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(['/']);
-      });
+    return this.httpClient.post(
+      'http://localhost:3000/api/user/signup',
+      authData
+    );
   }
 
   login(email: string, password: string) {
