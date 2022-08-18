@@ -68,6 +68,7 @@ router.post(
   (req, res) => {
     const url = req.protocol + '://' + req.get('host');
     const post = new Post({
+      creator: req.userData.userId,
       title: req.body.title,
       content: req.body.content,
       imagePath: url + '/images/' + req.file.filename,
@@ -77,6 +78,7 @@ router.post(
       res.status(201).json({
         post: {
           id: result._id,
+          creator: req.userData.userId,
           title: result.title,
           content: result.content,
           imagePath: result.imagePath,
@@ -100,6 +102,7 @@ router.put(
 
     const post = new Post({
       _id: req.params.id,
+      creator: req.userData.userId,
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
@@ -108,20 +111,30 @@ router.put(
     Post.updateOne(
       {
         _id: req.params.id,
+        creator: req.userData.userId,
       },
       post
     ).then((result) => {
-      console.log(result);
-      res.status(200).json({ message: 'Updated successfully' });
+      if (result.modifiedCount > 0) {
+        res.status(200).json({ message: 'Updated successfully' });
+      } else {
+        res.status(401).json({ message: 'Not authorized' });
+      }
     });
   }
 );
 
 router.delete('/api/posts/:id', checkAuth, (req, res) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
-    console.log(result);
+  Post.deleteOne({
+    _id: req.params.id,
+    creator: req.userData.userId,
+  }).then((result) => {
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: 'Post deleted' });
+    } else {
+      res.status(401).json({ message: 'Not authorized' });
+    }
   });
-  res.status(200).json({ message: 'Post deleted' });
 });
 
 module.exports = router;

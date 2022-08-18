@@ -26,6 +26,7 @@ export class PostService {
             posts: postData.posts.map((post: any) => {
               return {
                 id: post._id,
+                creator: post.creator,
                 title: post.title,
                 content: post.content,
                 imagePath: post.imagePath,
@@ -91,7 +92,13 @@ export class PostService {
       postData.append('content', content);
       postData.append('image', image, title);
     } else {
-      postData = { id: postId, title, content, imagePath: image };
+      postData = {
+        id: postId,
+        title,
+        content,
+        imagePath: image,
+        creator: null,
+      };
     }
 
     this.httpClient
